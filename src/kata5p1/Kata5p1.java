@@ -12,7 +12,7 @@ public class Kata5p1 {
     public static void main(String[] args) {
         Kata5p1 kata5p1= new Kata5p1();
         kata5p1.testQuery();
-        
+        kata5p1.createNewTable();
     }
     
     private Connection connect(){
@@ -51,6 +51,23 @@ public class Kata5p1 {
                         rs.getString("Apellidos") + "\t" + 
                         rs.getString("Departamento"));
             }
+        }catch(SQLException ex){
+            System.out.println(""+ex.getMessage());
+        } finally{
+            close(conn);
+        }
+    }
+    
+    public void createNewTable(){
+        Connection conn=null;
+        String sql ="CREATE TABLE IF NOT EXISTS EMAIL (\n"
+                + " Id integer PRIMARY KEY AUTOINCREMENT, \n"
+                + " Mail text NOT NULL);";
+        try{
+            conn=this.connect();
+            Statement stmt = conn.createStatement();
+            stmt.execute(sql);
+            
         }catch(SQLException ex){
             System.out.println(""+ex.getMessage());
         } finally{
